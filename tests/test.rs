@@ -22,36 +22,27 @@ mod tests {
     fn test_single() {
         let output = vec![false, true];
         let parse = parse(&vec![Token::Var("a".to_string())]);
-        if let Some(input) = parse {
-            assert_eq!(input.len(), output.len());
-            for i in 0..input.len() {
-                assert_eq!(input[i], output[i], "at {}", i);
-            }
-        } else {
-            assert_ne!(parse, None);
+        let input = parse.unwrap();
+        assert_eq!(input.len(), output.len());
+        for i in 0..input.len() {
+            assert_eq!(input[i], output[i], "at {}", i);
         }
     }
 
     #[test]
     fn test_const_false() {
         let parse = parse(&vec![Token::Zero, Token::And, Token::One]);
-        if let Some(output) = parse {
-            assert_eq!(output.len(), 1);
-            assert_eq!(output[0], false);
-        } else {
-            assert_ne!(parse, None)
-        }
+        let output = parse.unwrap();
+        assert_eq!(output.len(), 1);
+        assert_eq!(output[0], false);
     }
 
     #[test]
     fn test_const_true() {
         let parse = parse(&vec![Token::One, Token::And, Token::One]);
-        if let Some(output) = parse {
-            assert_eq!(output.len(), 1);
-            assert_eq!(output[0], true);
-        } else {
-            assert_ne!(parse, None)
-        }
+        let output = parse.unwrap();
+        assert_eq!(output.len(), 1);
+        assert_eq!(output[0], true);
     }
 
     #[test]
@@ -63,7 +54,7 @@ mod tests {
             Token::Var("b".to_string()),
         ]);
 
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 
     #[test]
@@ -75,7 +66,7 @@ mod tests {
             Token::Var("b".to_string()),
         ]);
 
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 
     #[test]
@@ -87,7 +78,7 @@ mod tests {
             Token::Var("b".to_string()),
         ]);
 
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 
     #[test]
@@ -95,7 +86,7 @@ mod tests {
         let output = vec![true, false];
         let input = parse(&vec![Token::Not, Token::Var("a".to_string())]);
 
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 
     #[test]
@@ -103,7 +94,7 @@ mod tests {
         let output = vec![false, true];
         let input = parse(&vec![Token::Var("a".to_string())]);
 
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 
     #[test]
@@ -120,7 +111,7 @@ mod tests {
             Token::Not,
             Token::Var("c".to_string()),
         ]);
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 
     #[test]
@@ -137,7 +128,7 @@ mod tests {
             Token::Var("c".to_string()),
             Token::Close,
         ]);
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 
     #[test]
@@ -164,7 +155,7 @@ mod tests {
             Token::Close,
             Token::Close,
         ]);
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 
     #[test]
@@ -183,6 +174,6 @@ mod tests {
         let vars = get_names(&func);
 
         assert_eq!(vars, vec!["b".to_string(), "c".to_string()]);
-        assert_eq!(input, Some(output));
+        assert_eq!(input, Ok(output));
     }
 }

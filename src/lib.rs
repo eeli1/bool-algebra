@@ -6,4 +6,4 @@ mod utils;
 pub use dnf::to_dnf;
 pub use parser::parse;
 pub use token::Token;
-pub use utils::{get_names, validate};
+pub use utils::{get_names, validate_func, validate_tabel};

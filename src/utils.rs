@@ -1,4 +1,5 @@
 use crate::Token;
+use std::usize;
 
 /// parses all unique var names in the token stream (`func: &Vec<Token>`) and returns it in the same order the table was created
 ///
@@ -45,7 +46,7 @@ pub fn get_names(func: &Vec<Token>) -> Vec<String> {
 
 /// checks if the input function is a valid expression
 /// returns Ok(()) if it's okay and Err(String) with an error message
-pub fn validate(func: &Vec<Token>) -> Result<(), String> {
+pub fn validate_func(func: &Vec<Token>) -> Result<(), String> {
     // increments on '(' and decrements on ')' should never be -1. Exampel: (a) & b ) is invalid
     let mut count_parentheses = 0;
     // counts all binary operator (and, or, xor) and cheks if ther are enough identifiers. Exampel: !a & & b is invalid
@@ -117,4 +118,15 @@ pub fn validate(func: &Vec<Token>) -> Result<(), String> {
         ));
     }
     Ok(())
+}
+
+
+/// checks if the input table is a valid
+/// returns Ok(()) if it's okay and Err(String) with an error message
+pub fn validate_tabel(table: Vec<bool>, names: Vec<String>) -> Result<(), String> {
+    if table.len() != usize::pow(2, names.len() as u32) {
+        Err(format!("unexpected table len, expected 2^{} = {} got {}", names.len() ,usize::pow(2, names.len() as u32) ,table.len()))
+    } else {
+        Ok(())
+    }
 }

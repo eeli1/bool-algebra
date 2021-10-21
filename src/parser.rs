@@ -1,4 +1,4 @@
-use crate::{Token, get_names, validate};
+use crate::{get_names, validate_func, Token};
 use std::collections::HashMap;
 use std::usize;
 
@@ -36,12 +36,10 @@ use std::usize;
 ///     Token::Var("b".to_string()),
 ///  ]);
 ///
-/// assert_eq!(input, Some(output));
+/// assert_eq!(input, Ok(output));
 /// ```
-pub fn parse(func: &Vec<Token>) -> Option<Vec<bool>> {
-    if validate(func).is_err() {
-        return None;
-    }
+pub fn parse(func: &Vec<Token>) -> Result<Vec<bool>, String> {
+    validate_func(func)?;
 
     let names = get_names(func);
     let len = usize::pow(2, names.len() as u32);
@@ -60,10 +58,10 @@ pub fn parse(func: &Vec<Token>) -> Option<Vec<bool>> {
         if let Some(value) = Node::eval(tree) {
             result.push(value);
         } else {
-            return None;
+            return Err(format!( "something went wrong cannot evaluate expression"));
         }
         if !update_values(&mut values) {
-            return Some(result);
+            return Ok(result);
         }
     }
 }
