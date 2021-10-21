@@ -1,10 +1,10 @@
-use crate::{get_names, validate_func, Token};
+use crate::{get_names, validate_func, Token, update_values};
 use std::collections::HashMap;
 use std::usize;
 
 /// this is the main parse function
 ///  
-/// this function parses the token stream (`func: &Vec<Token>`) into a compressed boolean table `Option<Vec<bool>>` and returns `None` if it can't parse the function
+/// this function parses the token vec (`func: &Vec<Token>`) into a compressed boolean table `Ok` and returns `Err` with an error massage if it can't parse the function
 ///
 /// func: `a & b`
 ///
@@ -17,7 +17,7 @@ use std::usize;
 /// 0 0 |   0
 /// 0 1 |   0
 /// 1 0 |   0
-/// 0 1 |   1
+/// 1 1 |   1
 /// ```
 ///
 /// the compressed table is just result read vertically
@@ -58,7 +58,7 @@ pub fn parse(func: &Vec<Token>) -> Result<Vec<bool>, String> {
         if let Some(value) = Node::eval(tree) {
             result.push(value);
         } else {
-            return Err(format!( "something went wrong cannot evaluate expression"));
+            return Err(format!("something went wrong cannot evaluate expression"));
         }
         if !update_values(&mut values) {
             return Ok(result);
@@ -83,17 +83,7 @@ fn init_lookup_values(
     }
 }
 
-/// binary add one 0010 -> 0011 -> 0100 ...
-/// returns false if all combiantion have been teste eg. 1111
-fn update_values(values: &mut Vec<bool>) -> bool {
-    for i in (0..values.len()).rev() {
-        values[i] = !values[i];
-        if values[i].clone() == true {
-            return true;
-        }
-    }
-    return false;
-}
+
 
 // low precedence -> high in the tree must be split first
 fn precedence_of(bool_func: &Token) -> usize {

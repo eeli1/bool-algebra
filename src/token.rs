@@ -13,3 +13,22 @@ pub enum Token {
 
     Var(String), // a
 }
+
+impl std::fmt::Display for Token {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Token::And => write!(f, "&"),
+            Token::Or => write!(f, "|"),
+            Token::Xor => write!(f, "^"),
+            Token::Not => write!(f, "!"),
+
+            Token::One => write!(f, "1"),
+            Token::Zero => write!(f, "0"),
+
+            Token::Open => write!(f, "("),
+            Token::Close => write!(f, ")"),
+
+            Token::Var(name) => write!(f, "{}", name),
+        }
+    }
+}

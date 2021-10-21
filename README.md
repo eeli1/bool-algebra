@@ -4,11 +4,11 @@ parsers boolean function like `a & b` in to `0001`
 
 ## parse
 
-`pub fn parse(func: &Vec<Token>) -> Option<Vec<bool>> {...}`
+`pub fn parse(func: &Vec<Token>) -> Result<Vec<bool>, String> {...}`
 
 this is the main parse function
   
-this function parses the token stream (`func: &Vec<Token>`) into a compressed boolean table `Option<Vec<bool>>` and returns `None` if it can't parse the function
+this function parses the token vec (`func: &Vec<Token>`) into a compressed boolean table `Ok` and returns `Err` with an error massage if it can't parse the function
 
 func: `a & b`
 
@@ -21,7 +21,7 @@ a b | result
 0 0 |   0
 0 1 |   0
 1 0 |   0
-0 1 |   1
+1 1 |   1
 ```
 
 the compressed table is just result read vertically
@@ -44,12 +44,12 @@ let input = parse(&vec![
     },
  ]);
 
-assert_eq!(input, Some(output));
+assert_eq!(input, Ok(output));
 ```
 
 ## get names
 
-`pub fn get_names(func: &Vec<Token>) -> Vec<String> {`
+`pub fn get_names(func: &Vec<Token>) -> Vec<String> {...}`
 
 parses all unique var names in the token stream (`func: &Vec<Token>`) and returns it in the same order the table was created
 
@@ -78,7 +78,7 @@ let output = vec!["a".to_string(), "b".to_string()];
 assert_eq!(get_names(&input), output);
 ```
 
-## how it works
+## how the parser works
 
 the problem of evaluating expressions is the order of operation
 
