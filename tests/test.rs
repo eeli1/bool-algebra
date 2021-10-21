@@ -1,4 +1,108 @@
 use bool_func_parser::Token;
+const WITH_PARENTHESES: bool = true;
+
+#[test]
+fn dnf() {
+    let table = vec![false, false, false, true];
+    let names = vec!["a".to_string(), "b".to_string()];
+    let dnf = if WITH_PARENTHESES {
+        vec![
+            Token::Open,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Var("b".to_string()),
+            Token::Close,
+        ]
+    } else {
+        vec![
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Var("b".to_string()),
+        ]
+    };
+    assert_eq!(bool_func_parser::dnf(&table, &names), Ok(dnf));
+
+    let table = vec![true, true, false, false, true, true, false, false];
+    let names = vec!["a".to_string(), "b".to_string(), "c".to_string()];
+    let dnf = if WITH_PARENTHESES {
+        vec![
+            Token::Open,
+            Token::Not,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("b".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("c".to_string()),
+            Token::Close,
+            Token::Or,
+            Token::Open,
+            Token::Not,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("b".to_string()),
+            Token::And,
+            Token::Var("c".to_string()),
+            Token::Close,
+            Token::Or,
+            Token::Open,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("b".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("c".to_string()),
+            Token::Close,
+            Token::Or,
+            Token::Open,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("b".to_string()),
+            Token::And,
+            Token::Var("c".to_string()),
+            Token::Close,
+        ]
+    } else {
+        vec![
+            Token::Not,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("b".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("c".to_string()),
+            Token::Or,
+            Token::Not,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("b".to_string()),
+            Token::And,
+            Token::Var("c".to_string()),
+            Token::Or,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("b".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("c".to_string()),
+            Token::Or,
+            Token::Var("a".to_string()),
+            Token::And,
+            Token::Not,
+            Token::Var("b".to_string()),
+            Token::And,
+            Token::Var("c".to_string()),
+        ]
+    };
+    assert_eq!(bool_func_parser::dnf(&table, &names), Ok(dnf));
+}
 
 #[test]
 fn print_tabel() {
