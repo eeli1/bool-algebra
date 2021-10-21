@@ -91,7 +91,7 @@ pub fn get_names(func: &Vec<Token>) -> Vec<String> {
 ///
 /// let output = vec![false, false, false, true];
 /// let input = parse(&vec![
-///     Token::Var("a".to_string())),
+///     Token::Var("a".to_string()),
 ///     Token::And,
 ///     Token::Var("b".to_string()),
 ///  ]);
