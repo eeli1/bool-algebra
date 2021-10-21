@@ -7,24 +7,12 @@ mod tests {
     #[test]
     fn test_get_names() {
         let input = vec![
-            Token::Var {
-                name: "a".to_string(),
-            },
-            Token::Var {
-                name: "b".to_string(),
-            },
-            Token::Var {
-                name: "a".to_string(),
-            },
-            Token::Var {
-                name: "c".to_string(),
-            },
-            Token::Var {
-                name: "c".to_string(),
-            },
-            Token::Var {
-                name: "d".to_string(),
-            },
+            Token::Var("a".to_string()),
+            Token::Var("b".to_string()),
+            Token::Var("a".to_string()),
+            Token::Var("c".to_string()),
+            Token::Var("c".to_string()),
+            Token::Var("d".to_string()),
         ];
 
         assert_eq!(get_names(&input), vec!["a", "b", "c", "d"]);
@@ -33,9 +21,7 @@ mod tests {
     #[test]
     fn test_single() {
         let output = vec![false, true];
-        let parse = parse(&vec![Token::Var {
-            name: "a".to_string(),
-        }]);
+        let parse = parse(&vec![Token::Var("a".to_string())]);
         if let Some(input) = parse {
             assert_eq!(input.len(), output.len());
             for i in 0..input.len() {
@@ -72,13 +58,9 @@ mod tests {
     fn and() {
         let output = vec![false, false, false, true];
         let input = parse(&vec![
-            Token::Var {
-                name: "a".to_string(),
-            },
+            Token::Var("a".to_string()),
             Token::And,
-            Token::Var {
-                name: "b".to_string(),
-            },
+            Token::Var("b".to_string()),
         ]);
 
         assert_eq!(input, Some(output));
@@ -88,13 +70,9 @@ mod tests {
     fn xor() {
         let output = vec![false, true, true, false];
         let input = parse(&vec![
-            Token::Var {
-                name: "a".to_string(),
-            },
+            Token::Var("a".to_string()),
             Token::Xor,
-            Token::Var {
-                name: "b".to_string(),
-            },
+            Token::Var("b".to_string()),
         ]);
 
         assert_eq!(input, Some(output));
@@ -104,13 +82,9 @@ mod tests {
     fn or() {
         let output = vec![false, true, true, true];
         let input = parse(&vec![
-            Token::Var {
-                name: "a".to_string(),
-            },
+            Token::Var("a".to_string()),
             Token::Or,
-            Token::Var {
-                name: "b".to_string(),
-            },
+            Token::Var("b".to_string()),
         ]);
 
         assert_eq!(input, Some(output));
@@ -119,12 +93,7 @@ mod tests {
     #[test]
     fn not() {
         let output = vec![true, false];
-        let input = parse(&vec![
-            Token::Not,
-            Token::Var {
-                name: "a".to_string(),
-            },
-        ]);
+        let input = parse(&vec![Token::Not, Token::Var("a".to_string())]);
 
         assert_eq!(input, Some(output));
     }
@@ -132,9 +101,7 @@ mod tests {
     #[test]
     fn identity() {
         let output = vec![false, true];
-        let input = parse(&vec![Token::Var {
-            name: "a".to_string(),
-        }]);
+        let input = parse(&vec![Token::Var("a".to_string())]);
 
         assert_eq!(input, Some(output));
     }
@@ -145,19 +112,13 @@ mod tests {
         let output = vec![false, false, true, false, true, false, true, false];
         let input = parse(&vec![
             Token::Open,
-            Token::Var {
-                name: "a".to_string(),
-            },
+            Token::Var("a".to_string()),
             Token::Or,
-            Token::Var {
-                name: "b".to_string(),
-            },
+            Token::Var("b".to_string()),
             Token::Close,
             Token::And,
             Token::Not,
-            Token::Var {
-                name: "c".to_string(),
-            },
+            Token::Var("c".to_string()),
         ]);
         assert_eq!(input, Some(output));
     }
@@ -168,18 +129,12 @@ mod tests {
         let output = vec![false, false, false, false, false, false, true, false];
         let input = parse(&vec![
             Token::Open,
-            Token::Var {
-                name: "a".to_string(),
-            },
+            Token::Var("a".to_string()),
             Token::And,
-            Token::Var {
-                name: "b".to_string(),
-            },
+            Token::Var("b".to_string()),
             Token::And,
             Token::Not,
-            Token::Var {
-                name: "c".to_string(),
-            },
+            Token::Var("c".to_string()),
             Token::Close,
         ]);
         assert_eq!(input, Some(output));
@@ -196,24 +151,16 @@ mod tests {
             Token::Not,
             Token::Open,
             Token::Open,
-            Token::Var {
-                name: "a".to_string(),
-            },
+            Token::Var("a".to_string()),
             Token::Or,
-            Token::Var {
-                name: "b".to_string(),
-            },
+            Token::Var("b".to_string()),
             Token::Close,
             Token::And,
             Token::Open,
-            Token::Var {
-                name: "c".to_string(),
-            },
+            Token::Var("c".to_string()),
             Token::Or,
             Token::Not,
-            Token::Var {
-                name: "d".to_string(),
-            },
+            Token::Var("d".to_string()),
             Token::Close,
             Token::Close,
         ]);
@@ -226,17 +173,11 @@ mod tests {
         let output = vec![false, true, false, true];
 
         let func = vec![
-            Token::Var {
-                name: "b".to_string(),
-            },
+            Token::Var("b".to_string()),
             Token::And,
-            Token::Var {
-                name: "c".to_string(),
-            },
+            Token::Var("c".to_string()),
             Token::Or,
-            Token::Var {
-                name: "c".to_string(),
-            },
+            Token::Var("c".to_string()),
         ];
         let input = parse(&func);
         let vars = get_names(&func);

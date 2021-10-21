@@ -16,7 +16,7 @@ pub enum Token {
     Open,  // (
     Close, // )
 
-    Var { name: String }, // a
+    Var(String), // a
 }
 
 /// parses all unique var names in the token stream (`func: &Vec<Token>`) and returns it in the same order the table was created
@@ -31,17 +31,11 @@ pub enum Token {
 /// // a & b | a -> vec["a", "b"]
 ///
 /// let input = vec![
-///     Token::Var {
-///         name: "a".to_string(),
-///     },
+///     Token::Var("a".to_string()),
 ///     Token::And,
-///     Token::Var {
-///         name: "b".to_string(),
-///     },
+///     Token::Var("b".to_string()),
 ///     Token::Or,
-///     Token::Var {
-///         name: "a".to_string(),
-///     },
+///     Token::Var("a".to_string()),
 /// ];
 /// let output = vec!["a".to_string(), "b".to_string()];
 /// assert_eq!(get_names(&input), output);
@@ -50,7 +44,7 @@ pub fn get_names(func: &Vec<Token>) -> Vec<String> {
     let mut vars = Vec::new();
     for f in func {
         match f.clone() {
-            Token::Var { name } => {
+            Token::Var(name) => {
                 let mut in_var = false;
                 for s in vars.clone() {
                     if s == name {
@@ -97,13 +91,9 @@ pub fn get_names(func: &Vec<Token>) -> Vec<String> {
 ///
 /// let output = vec![false, false, false, true];
 /// let input = parse(&vec![
-///     Token::Var {
-///         name: "a".to_string(),
-///     },
+///     Token::Var("a".to_string())),
 ///     Token::And,
-///     Token::Var {
-///         name: "b".to_string(),
-///     },
+///     Token::Var("b".to_string()),
 ///  ]);
 ///
 /// assert_eq!(input, Some(output));
@@ -173,7 +163,7 @@ pub fn validate(func: &Vec<Token>) -> Result<(), String> {
                     count_parentheses -= 1;
                 }
             }
-            Token::Var { name } => {
+            Token::Var(name) => {
                 if last_identifier {
                     return Err(format!("expected operator got {}", name));
                 } else {
@@ -226,7 +216,7 @@ fn init_lookup_values(
         values.push(false);
         unsafe {
             let ptr = values.as_mut_ptr().add(values.len() - 1);
-            lookup.entry(Token::Var { name }).or_insert(ptr);
+            lookup.entry(Token::Var(name)).or_insert(ptr);
         }
     }
 }
