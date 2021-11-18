@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "bool-func-parser"
+name = "bool-algebra"
 version = "0.1.0"

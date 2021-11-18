@@ -25,7 +25,7 @@ use std::usize;
 /// # example:
 ///
 /// ```rust
-/// use bool_func_parser::*;
+/// use bool_algebra::*;
 ///
 /// // a & b -> 0001
 ///

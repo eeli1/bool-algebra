@@ -1,6 +1,4 @@
-use crate::{update_values, validate_tabel, validate_func, Token};
-
-const WITH_PARENTHESES: bool = true;
+use crate::{update_values, validate_func, validate_tabel, Token};
 
 /// generates the [disjunctive normal form] (DNF)
 ///
@@ -9,7 +7,7 @@ const WITH_PARENTHESES: bool = true;
 /// ## Example
 ///
 /// ```rust
-/// use bool_func_parser::Token;
+/// use bool_algebra::Token;
 /// let table = vec![false, false, false, true];
 /// let names = vec!["a".to_string(), "b".to_string()];
 /// let dnf = vec![
@@ -19,9 +17,13 @@ const WITH_PARENTHESES: bool = true;
 ///     Token::Var("b".to_string()),
 ///     Token::Close,
 /// ];
-/// assert_eq!(bool_func_parser::dnf(&table, &names), Ok(dnf));
+/// assert_eq!(bool_algebra::dnf(&table, &names, true), Ok(dnf));
 /// ```
-pub fn dnf(table: &Vec<bool>, names: &Vec<String>) -> Result<Vec<Token>, String> {
+pub fn dnf(
+    table: &Vec<bool>,
+    names: &Vec<String>,
+    with_parentheses: bool,
+) -> Result<Vec<Token>, String> {
     validate_tabel(table, names)?;
     let names: Vec<Token> = names.iter().map(|name| Token::Var(name.clone())).collect();
 
@@ -34,7 +36,7 @@ pub fn dnf(table: &Vec<bool>, names: &Vec<String>) -> Result<Vec<Token>, String>
             if dnf.len() != 0 {
                 dnf.push(Token::Or);
             }
-            if WITH_PARENTHESES {
+            if with_parentheses {
                 dnf.push(Token::Open);
             }
             for (i, &value) in values.iter().enumerate() {
@@ -46,7 +48,7 @@ pub fn dnf(table: &Vec<bool>, names: &Vec<String>) -> Result<Vec<Token>, String>
             }
             // pop last operator (Token::And)
             dnf.pop();
-            if WITH_PARENTHESES {
+            if with_parentheses {
                 dnf.push(Token::Close);
             }
         }

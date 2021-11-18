@@ -8,7 +8,7 @@ use std::usize;
 /// ## Example
 ///
 /// ```rust
-/// use bool_func_parser::*;
+/// use bool_algebra::*;
 ///
 /// // a & b | a -> vec["a", "b"]
 ///
@@ -153,7 +153,7 @@ pub fn print_func(func: &Vec<Token>) -> String {
 /// ```rust
 /// let table = vec![false, false, false, true];
 /// let names = vec!["a".to_string(), "b".to_string()];
-/// let output = bool_func_parser::print_tabel(&table, &names, &"result".to_string());
+/// let output = bool_algebra::print_tabel(&table, &names, &"result".to_string());
 /// let lines = vec![
 ///     "a b | result",
 ///     "0 0 |   0",
@@ -237,7 +237,7 @@ pub fn print_tabel(table: &Vec<bool>, names: &Vec<String>, result_name: &String)
 ///
 /// ```rust
 /// let mut values = vec![false, true, false];
-/// assert_eq!(bool_func_parser::update_values(&mut values), true);
+/// assert_eq!(bool_algebra::update_values(&mut values), true);
 /// assert_eq!(values, vec![false, true ,true]);
 /// ```
 pub fn update_values(values: &mut Vec<bool>) -> bool {
@@ -265,7 +265,7 @@ pub fn update_values(values: &mut Vec<bool>) -> bool {
 ///   vec![true, true, false],
 ///   vec![true, true, true],
 /// ];
-/// assert_eq!(bool_func_parser::generate_table_2d(3), table);
+/// assert_eq!(bool_algebra::generate_table_2d(3), table);
 /// ```
 pub fn generate_table_2d(len: usize) -> Vec<Vec<bool>> {
     let mut table_2d = Vec::new();
