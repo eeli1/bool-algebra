@@ -58,6 +58,14 @@ pub fn validate_func(func: &Vec<Token>) -> Result<(), String> {
 
     for f in func {
         match f {
+            Token::Implic => {
+                count_binary += 1;
+                last_identifier = false;
+            }
+            Token::Eq => {
+                count_binary += 1;
+                last_identifier = false;
+            }
             Token::And => {
                 count_binary += 1;
                 last_identifier = false;

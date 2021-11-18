@@ -1,4 +1,4 @@
-use crate::{get_names, validate_func, Token, update_values};
+use crate::{get_names, update_values, validate_func, Token};
 use std::collections::HashMap;
 use std::usize;
 
@@ -83,15 +83,15 @@ fn init_lookup_values(
     }
 }
 
-
-
 // low precedence -> high in the tree must be split first
 fn precedence_of(bool_func: &Token) -> usize {
     match bool_func {
-        Token::Or => 0,
-        Token::Xor => 1,
-        Token::And => 2,
-        Token::Not => 3,
+        Token::Eq => 0,
+        Token::Or => 1,
+        Token::Implic => 2,
+        Token::Xor => 3,
+        Token::And => 4,
+        Token::Not => 5,
         _ => 0xff,
     }
 }
@@ -334,6 +334,16 @@ impl Node {
                     let right = Node::eval(right_node)?;
                     let left = Node::eval(left_node)?;
                     return Some(left ^ right);
+                }
+                Token::Eq => {
+                    let right = Node::eval(right_node)?;
+                    let left = Node::eval(left_node)?;
+                    return Some(!(left ^ right));
+                }
+                Token::Implic => {
+                    let right = Node::eval(right_node)?;
+                    let left = Node::eval(left_node)?;
+                    return Some(!left || right);
                 }
                 _ => {
                     return None;

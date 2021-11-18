@@ -65,6 +65,30 @@ fn or() {
 }
 
 #[test]
+fn eq() {
+    let output = vec![true, false, false, true];
+    let input = parse(&vec![
+        Token::Var("a".to_string()),
+        Token::Eq,
+        Token::Var("b".to_string()),
+    ]);
+
+    assert_eq!(input, Ok(output));
+}
+
+#[test]
+fn implic() {
+    let output = vec![true, true, false, true];
+    let input = parse(&vec![
+        Token::Var("a".to_string()),
+        Token::Implic,
+        Token::Var("b".to_string()),
+    ]);
+
+    assert_eq!(input, Ok(output));
+}
+
+#[test]
 fn not() {
     let output = vec![true, false];
     let input = parse(&vec![Token::Not, Token::Var("a".to_string())]);

@@ -1,9 +1,11 @@
 #[derive(PartialEq, Debug, Clone, Eq, Hash)]
 pub enum Token {
-    And, // &
-    Or,  // |
-    Xor, // ^
-    Not, // !
+    And,    // &
+    Or,     // |
+    Xor,    // ⊕
+    Not,    // !
+    Eq,     // ≡
+    Implic, // →
 
     One,  // 1
     Zero, // 0
@@ -19,8 +21,10 @@ impl std::fmt::Display for Token {
         match self {
             Token::And => write!(f, "&"),
             Token::Or => write!(f, "|"),
-            Token::Xor => write!(f, "^"),
+            Token::Xor => write!(f, "⊕"),
             Token::Not => write!(f, "!"),
+            Token::Implic => write!(f, "→"),
+            Token::Eq => write!(f, "≡"),
 
             Token::One => write!(f, "1"),
             Token::Zero => write!(f, "0"),
