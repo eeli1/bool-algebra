@@ -88,10 +88,11 @@ fn precedence_of(bool_func: &Token) -> usize {
     match bool_func {
         Token::Eq => 0,
         Token::Or => 1,
-        Token::Implic => 2,
-        Token::Xor => 3,
-        Token::And => 4,
-        Token::Not => 5,
+        Token::ImplicAB => 2,
+        Token::ImplicBA => 3,
+        Token::Xor => 4,
+        Token::And => 5,
+        Token::Not => 6,
         _ => 0xff,
     }
 }
@@ -318,7 +319,7 @@ impl Node {
                         return Some(false);
                     } else {
                         let left = Node::eval(left_node)?;
-                        return Some(left & right);
+                        return Some(left && right);
                     }
                 }
                 Token::Or => {
@@ -327,7 +328,7 @@ impl Node {
                         return Some(true);
                     } else {
                         let left = Node::eval(left_node)?;
-                        return Some(left | right);
+                        return Some(left || right);
                     }
                 }
                 Token::Xor => {
@@ -340,10 +341,15 @@ impl Node {
                     let left = Node::eval(left_node)?;
                     return Some(!(left ^ right));
                 }
-                Token::Implic => {
+                Token::ImplicAB => {
                     let right = Node::eval(right_node)?;
                     let left = Node::eval(left_node)?;
                     return Some(!left || right);
+                }
+                Token::ImplicBA => {
+                    let right = Node::eval(right_node)?;
+                    let left = Node::eval(left_node)?;
+                    return Some(left || !right);
                 }
                 _ => {
                     return None;

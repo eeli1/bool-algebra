@@ -5,7 +5,9 @@ pub enum Token {
     Xor,    // ⊕
     Not,    // !
     Eq,     // ≡
-    Implic, // →
+    ImplicAB, // →
+    ImplicBA, // ←
+
 
     One,  // 1
     Zero, // 0
@@ -23,7 +25,8 @@ impl std::fmt::Display for Token {
             Token::Or => write!(f, "|"),
             Token::Xor => write!(f, "⊕"),
             Token::Not => write!(f, "!"),
-            Token::Implic => write!(f, "→"),
+            Token::ImplicAB => write!(f, "→"),
+            Token::ImplicBA => write!(f, "←"),
             Token::Eq => write!(f, "≡"),
 
             Token::One => write!(f, "1"),

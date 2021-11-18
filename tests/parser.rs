@@ -77,11 +77,23 @@ fn eq() {
 }
 
 #[test]
-fn implic() {
+fn implic_ab() {
     let output = vec![true, true, false, true];
     let input = parse(&vec![
         Token::Var("a".to_string()),
-        Token::Implic,
+        Token::ImplicAB,
+        Token::Var("b".to_string()),
+    ]);
+
+    assert_eq!(input, Ok(output));
+}
+
+#[test]
+fn implic_ba() {
+    let output = vec![true, false, true, true];
+    let input = parse(&vec![
+        Token::Var("a".to_string()),
+        Token::ImplicBA,
         Token::Var("b".to_string()),
     ]);
 

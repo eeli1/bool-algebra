@@ -1,6 +1,8 @@
-# boolean function parser
+# boolean algrbra
 
-parsers boolean function like `a & b` in to `0001`
+a libary to handel boolen algrabra in rust 
+
+this library  can turn functions like `a & b` into `0001`, complete tabes, and can generate the **Disjunctive normal from** the tables 
 
 ## parse
 
