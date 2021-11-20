@@ -82,6 +82,14 @@ pub fn validate_func(func: &Vec<Token>) -> Result<(), String> {
                 count_binary += 1;
                 last_identifier = false;
             }
+            Token::Nand => {
+                count_binary += 1;
+                last_identifier = false;
+            }
+            Token::Nor => {
+                count_binary += 1;
+                last_identifier = false;
+            }
             Token::Not => (),
             Token::Open => count_parentheses += 1,
             Token::Close => {

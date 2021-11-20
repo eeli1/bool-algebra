@@ -41,6 +41,30 @@ fn and() {
 }
 
 #[test]
+fn nand() {
+    let output = vec![true, true, true, false];
+    let input = parse(&vec![
+        Token::Var("a".to_string()),
+        Token::Nand,
+        Token::Var("b".to_string()),
+    ]);
+
+    assert_eq!(input, Ok(output));
+}
+
+#[test]
+fn nor() {
+    let output = vec![true, false, false, false];
+    let input = parse(&vec![
+        Token::Var("a".to_string()),
+        Token::Nor,
+        Token::Var("b".to_string()),
+    ]);
+
+    assert_eq!(input, Ok(output));
+}
+
+#[test]
 fn xor() {
     let output = vec![false, true, true, false];
     let input = parse(&vec![

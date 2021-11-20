@@ -91,9 +91,16 @@ fn precedence_of(bool_func: &Token) -> usize {
         Token::ImplicAB => 2,
         Token::ImplicBA => 3,
         Token::Xor => 4,
-        Token::And => 5,
-        Token::Not => 6,
-        _ => 0xff,
+        Token::Nand => 5,
+        Token::Nor => 6,
+        Token::And => 7,
+        Token::Not => 8,
+
+        Token::Close => 0xff,
+        Token::Open => 0xff,
+        Token::Zero => 0xff,
+        Token::One => 0xff,
+        Token::Var(_) => 0xff,
     }
 }
 
@@ -351,7 +358,32 @@ impl Node {
                     let left = Node::eval(left_node)?;
                     return Some(left || !right);
                 }
-                _ => {
+                Token::Nand => {
+                    let right = Node::eval(right_node)?;
+                    let left = Node::eval(left_node)?;
+                    return Some(!(left && right));
+                }
+                Token::Nor => {
+                    let right = Node::eval(right_node)?;
+                    let left = Node::eval(left_node)?;
+                    return Some(!(left || right));
+                }
+                Token::One => {
+                    return None;
+                }
+                Token::Not => {
+                    return None;
+                }
+                Token::Zero => {
+                    return None;
+                }
+                Token::Open => {
+                    return None;
+                }
+                Token::Close => {
+                    return None;
+                }
+                Token::Var(_) => {
                     return None;
                 }
             }
