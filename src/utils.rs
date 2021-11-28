@@ -41,6 +41,7 @@ pub fn get_names(func: &Vec<Token>) -> Vec<String> {
             _ => (),
         }
     }
+    vars.sort();
     vars
 }
 
