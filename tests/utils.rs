@@ -166,12 +166,12 @@ fn update_values() {
 #[test]
 fn get_names() {
     let input = vec![
+        Token::Var("d".to_string()),
+        Token::Var("c".to_string()),
         Token::Var("a".to_string()),
         Token::Var("b".to_string()),
         Token::Var("a".to_string()),
         Token::Var("c".to_string()),
-        Token::Var("c".to_string()),
-        Token::Var("d".to_string()),
     ];
 
     assert_eq!(bool_algebra::get_names(&input), vec!["a", "b", "c", "d"]);
