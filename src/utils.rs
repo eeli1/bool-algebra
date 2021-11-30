@@ -298,3 +298,21 @@ pub fn generate_table_2d(len: usize) -> Vec<Vec<bool>> {
     }
     table_2d
 }
+
+/// converts a boolean array to a u32 
+/// 
+///  ## Example
+///
+/// ```rust
+/// assert_eq!(bool_algebra::bool_to_u32(vec![false, true, true]), 3); // 011 -> 3
+/// assert_eq!(bool_algebra::bool_to_u32(vec![true, false, false]), 4); // 100 -> 4
+/// ```
+pub fn bool_to_u32(binary: Vec<bool>) -> u32 {
+    let mut num = 0;
+    for (i, &b) in binary.iter().rev().enumerate() {
+        if b {
+            num += 2_u32.pow(i as u32);
+        }
+    }
+    num
+}

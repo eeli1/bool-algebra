@@ -176,3 +176,9 @@ fn get_names() {
 
     assert_eq!(bool_algebra::get_names(&input), vec!["a", "b", "c", "d"]);
 }
+
+#[test]
+fn bool_to_u32() {
+    assert_eq!(bool_algebra::bool_to_u32(vec![false, true, true]), 3);
+    assert_eq!(bool_algebra::bool_to_u32(vec![true, false, false]), 4);
+}
